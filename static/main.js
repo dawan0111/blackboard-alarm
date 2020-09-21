@@ -29,14 +29,14 @@
                     .filter(sch => (+new Date() - new Date(sch.endDate)) < 0)
                     .map(sch => {
                         const endDate = new Date(sch.endDate);
-                        const diffDay = moment(endDate).diff(moment(), 'days');
+                        const diffHour = moment(endDate).diff(moment(), 'hours');
                         const diffMinute = moment(endDate).diff(moment(), 'minutes');
 
                         sch.endTimeStamp = +endDate;
                         sch.endDateFormat = moment(endDate).format("YY년 MM월 DD일 HH시 mm분"); 
                         sch.someTimeStamp = sch.endTimeStamp - (+new Date());
                         sch.isEnd = (+new Date() - endDate) >= 0;
-                        sch.badge = diffDay != 0 ? `${diffDay}일 남음` : `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
+                        sch.badge = diffHour >= 24 ? `${Math.floor(diffHour / 24)}일 ${diffHour % 24}시간 남음` : `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
                         sch.attempts = []
                         sch.noAttempt = false
 
