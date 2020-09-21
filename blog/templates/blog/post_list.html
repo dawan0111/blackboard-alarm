@@ -1,0 +1,34 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+    <div class="pt-4">
+        <h4 class="mb-0">한양대학교 ERCIA</h4>
+        <h1>BlackBoard 알리미</h1>
+    </div>
+    <form id="login-form" class="form pt-4">
+        <div class="alert alert-success" role="alert">
+            입력하신 아이디와 비밀번호는 외부에 저장되지 않아 유출될 위험이 없습니다. 오로지 과제를 가져오기 위해 사용됩니다.
+        </div>
+
+        <div class="form-group">
+            <label for="id">한양대학교 ID</label>
+            <input type="text" class="form-control" placeholder="ID" name="id" id="id">
+        </div>
+        <div class="form-group">
+            <label for="pw">한양대학교 비밀번호</label>
+            <input type="password" class="form-control" placeholder="PW" name="password" id="password">
+        </div>
+
+        <div class="form-group">
+            <button class="btn btn-primary btn-lg btn-block">로그인</button>
+        </div>
+    </form>
+{% endblock %}
+
+{% block script %}
+    {% load static %}
+    <script type="text/javascript" src="{% static 'enc_base64.js' %}"></script>
+    <script type="text/javascript" src="{% static 'enc_core.js' %}"></script>
+    <script src="{% static 'login.js' %}"></script>
+{% endblock %}

@@ -1,0 +1,48 @@
+{% extends 'blog/base.html' %}
+
+
+{% block content %}
+    <div id="app">
+        <div class="pt-4 mb-4">
+            <h1>과제가 <span v-html="assignments.length"></span>개나 있네...</h1>
+        </div>
+        <div class="list" v-if="assignments.length">
+            <div v-for="assignment in assignments" class="mb-3">
+                <div class="card">
+                    <div class="card-header">
+                        <p>
+                            <span v-html="assignment.calendarNameLocalizable.rawValue"></span>
+                            <span class="badge badge-primary" v-html="assignment.badge">Primary</span>
+                            <span class="badge badge-danger" v-if="assignment.noAttempt">제출안됨</span>
+                        </p>
+                    </div>
+                    <div class="card-body">
+                      <blockquote class="blockquote mb-0">
+                        <p v-html="assignment.title"></p>
+                        <footer class="blockquote-footer">
+                            <span v-html="assignment.endDateFormat"></span> <span>까지</span>
+                        </footer>
+                      </blockquote>
+
+                      <ul>
+                          <li v-for="attempt in assignment.attempts">
+                              <div>
+                                  제출상태: <span v-html="attempt.status"></span>
+                              </div>
+                          </li>
+                      </ul>
+                    </div>
+                  </div>
+            </div>
+        </div>
+        <div v-else>
+            Loading...
+        </div>
+    </div>
+{% endblock %}
+
+{% block script %}
+    {% load static %}
+    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+    <script type="text/javascript" src="{% static 'main.js' %}"></script>
+{% endblock %}
