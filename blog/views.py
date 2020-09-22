@@ -20,14 +20,19 @@ def post_list(request):
     return render(request, 'blog/post_list.html', {})
 
 def fetchAssignment(BbRouter, request):
+    
     with requests.Session() as s:
+        
         nowDateTime = datetime.datetime.now()
         nowDateFormat = nowDateTime.strftime('%Y-%m-%dT00:00:00Z')
-        getSch = s.get('https://learn.hanyang.ac.kr/learn/api/v1/calendars/calendarItems?since='+nowDateFormat, headers={
-            'Referer': 'https://learn.hanyang.ac.kr/ultra/calendar',
-            'Cookie': 'BbRouter='+BbRouter['value'],
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
-        })
+        getSch = s.get(
+            'https://learn.hanyang.ac.kr/learn/api/v1/calendars/calendarItems?since='+nowDateFormat,
+            headers={
+                'Referer': 'https://learn.hanyang.ac.kr/ultra/calendar',
+                'Cookie': 'BbRouter='+BbRouter['value'],
+                'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
+            }
+        )
         
         getSchResult = getSch.json()
         
