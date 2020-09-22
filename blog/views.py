@@ -4,6 +4,8 @@ import base64
 import datetime
 import time
 
+import os
+
 from multiprocessing import Process
 from django.shortcuts import render
 from django.http import HttpResponse
@@ -65,8 +67,12 @@ def getAssignment(request):
         userId   = B64_userId.decode("UTF-8")
         password = B64_password.decode("UTF-8")
         
+        driver = None
+        
         options = webdriver.ChromeOptions()
         options.add_argument("headless")
+        options.add_argument("--disable-dev-shm-usage")
+        options.add_argument("--no-sandbox")
         options.add_argument("disable-gpu") 
         options.add_argument("disable-infobars")
         options.add_argument("--disable-extensions")
@@ -75,7 +81,12 @@ def getAssignment(request):
 
         options.add_experimental_option('prefs', prefs)
         
-        driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+        if os.environ.get("GOOGLE_CHROME_BIN"):
+            options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
+            driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
+        else:
+            driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
+            
         driverAlert = Alert(driver)
         
         driver.implicitly_wait(3)
