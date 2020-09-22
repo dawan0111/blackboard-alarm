@@ -124,19 +124,6 @@ def getAssignmentDetail(request):
     
     BbRouter = request.session['BbRouter']
     
-    courses = requests.get(
-        'https://learn.hanyang.ac.kr/learn/api/v1/courses/'+calendarId+'/gradebook/columns/'+itemSourceId,
-        headers={
-            'Referer': 'https://learn.hanyang.ac.kr/ultra/calendar',
-            'Cookie': 'BbRouter='+BbRouter['value'],
-            'User-Agent': 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_6) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/85.0.4183.102 Safari/537.36'
-        },
-        params={
-            'expand': 'collectExternalSubmissions,gradebookCategory'
-        }
-    )
-    courseData = courses.json()
-    
     attemptReq = requests.get('https://learn.hanyang.ac.kr/learn/api/v1/courses/'+calendarId+'/gradebook/columns/'+itemSourceId+'/grades',
         headers={
             'Referer': 'https://learn.hanyang.ac.kr/ultra/calendar',
