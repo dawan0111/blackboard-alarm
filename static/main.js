@@ -2,6 +2,7 @@
 
 (async function() {
     const USER_ID = localStorage.getItem('_userId');
+    const DECODE_USER_ID = localStorage.getItem('_decodeUserId')
     const USER_PW = localStorage.getItem('_userPassword');
 
     if (!(USER_ID || USER_PW)) {
@@ -23,7 +24,7 @@
 
         methods: {
             async fetchAssignments() {
-                const schList = await Cralwer.getSch(USER_ID, USER_PW);
+                const schList = await Cralwer.getSch(USER_ID, USER_PW, DECODE_USER_ID);
 
                 this.assignments = schList.data
                     .filter(sch => (+new Date() - new Date(sch.endDate)) < 0)

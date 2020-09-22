@@ -17,8 +17,9 @@ async function handleLoginFormSubmit (e) {
     switch (responseData.code) {
         case "504":
         case "200":
-            localStorage.setItem('_userId', btoa(formData.id, "HaNyAnGbLaCkBoArD"));
-            localStorage.setItem('_userPassword', btoa(formData.password, "HaNyAnGbLaCkBoArD"));
+            localStorage.setItem('_decodeUserId', formData.id)
+            localStorage.setItem('_userId', btoa(fnRSAEnc(formData.id), "HaNyAnGbLaCkBoArD"));
+            localStorage.setItem('_userPassword', btoa(fnRSAEnc(formData.password), "HaNyAnGbLaCkBoArD"));
 
             alert("로그인 성공!!");
             location.href = '/';

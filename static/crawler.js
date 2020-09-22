@@ -20,11 +20,12 @@ const Cralwer = {
         })
     },
 
-    async getSch(id, password) {
+    async getSch(id, password, encodeUserId) {
         return new Promise((resolve, reject) => {
             $.ajax({
                 url: '/assignment',
                 data: {
+                    decodeUserId: encodeUserId,
                     userId: id,
                     password: password,
                 },

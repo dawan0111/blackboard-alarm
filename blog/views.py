@@ -66,50 +66,50 @@ def getAssignment(request):
         
         userId   = B64_userId.decode("UTF-8")
         password = B64_password.decode("UTF-8")
+        decodeUserId = request.GET.get('decodeUserId')
         
-        driver = None
+        CLIENT_INFO = {
+            'client_id': 'f02a2d25639bed7abc3d7c0e1e773b4',
+            'response_type': 'code',
+            'redirect_uri': 'https://learn.hanyang.ac.kr',
+            'scope': '35,10'
+        }
+    
+        USER_INFO = {
+            '_userId': userId,
+            '_password': password,
+            'identck': 'mobile_002',
+            'sinbun': '',
+        }
         
-        options = webdriver.ChromeOptions()
-        options.add_argument("headless")
-        options.add_argument("--disable-dev-shm-usage")
-        options.add_argument("--no-sandbox")
-        options.add_argument("disable-gpu") 
-        options.add_argument("disable-infobars")
-        options.add_argument("--disable-extensions")
-        
-        prefs = {'profile.default_content_setting_values': {'images': 2, 'plugins' : 2, 'popups': 2, 'geolocation': 2, 'notifications' : 2, 'auto_select_certificate': 2, 'fullscreen' : 2, 'mouselock' : 2, 'mixed_script': 2, 'media_stream' : 2, 'media_stream_mic' : 2, 'media_stream_camera': 2, 'protocol_handlers' : 2, 'ppapi_broker' : 2, 'automatic_downloads': 2, 'midi_sysex' : 2, 'push_messaging' : 2, 'ssl_cert_decisions': 2, 'metro_switch_to_desktop' : 2, 'protected_media_identifier': 2, 'app_banner': 2, 'site_engagement' : 2, 'durable_storage' : 2}}
-
-        options.add_experimental_option('prefs', prefs)
-        
-        if os.environ.get("GOOGLE_CHROME_BIN"):
-            options.binary_location = os.environ.get("GOOGLE_CHROME_BIN")
-            driver = webdriver.Chrome(executable_path=os.environ.get("CHROMEDRIVER_PATH"), chrome_options=options)
-        else:
-            driver = webdriver.Chrome(ChromeDriverManager().install(), chrome_options=options)
-            
-        driverAlert = Alert(driver)
-        
-        driver.implicitly_wait(3)
-        driver.get('https://learn.hanyang.ac.kr/ultra/institution-page')
-        driver.find_element_by_id('entry-login-custom').click()
-        
-        driver.find_element_by_id('uid').send_keys(userId)
-        driver.find_element_by_id('upw').send_keys(password)
-        driver.find_element_by_id('login_btn').click()
+        AUTH_INFO = {
+            'userId': decodeUserId,
+            'crsmainPk1': '', 
+            'sharedSecret': 'gksdid!!eogkrry@@',
+            'autoSignOnUrl': 'https://learn.hanyang.ac.kr/webapps/oslt-auth-provider-autosignon-BB5a998b8c44671/service/login/_202_1'   
+        }
         
         try:
-            alert = driver.switch_to_alert()
-            alert.accept()
-        except:
-            alerts = False
-        
-        cookies = driver.get_cookies()
-        BbRouter = next(item for item in cookies if item["name"] == "BbRouter")
-        driver.quit()
-        
-        request.session['BbRouter'] = BbRouter
-        
-        assignments = fetchAssignment(request.session['BbRouter'], request)
+            with requests.Session() as s:
+                s.get('https://learn.hanyang.ac.kr')
+                s.get('https://api.hanyang.ac.kr/oauth/authorize', params=CLIENT_INFO)
+                s.post('https://api.hanyang.ac.kr/oauth/login_submit.json', data=USER_INFO)
+                s.get('https://api.hanyang.ac.kr/oauth/authorize', params=CLIENT_INFO, allow_redirects=True)
+                
+                userAuthReq = s.post('https://learn.hanyang.ac.kr/webapps/fn-2ndauth-BB5a998b8c44671/json/secondAuth/checkUser', data=AUTH_INFO)
+                userTokenReq = s.get(userAuthReq.json()['url'])
+                userToken = userTokenReq.cookies.get_dict()['BbRouter']
+                
+                assignments = fetchAssignment({
+                    'name': 'BbRouter',
+                    'value': userToken
+                }, request)
+        except ValueError:
+            return HttpResponse(json.dumps({
+                'code': 401,
+                'error': ValueError,
+            }), content_type="application/json")
+            
     
     return HttpResponse(json.dumps({
         'code': 200,
