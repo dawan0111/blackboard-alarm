@@ -47,31 +47,33 @@
                         return a.someTimeStamp - b.someTimeStamp;
                     })
 
-                Promise.all(
-                    schList.data.map(sch => ($.ajax(
-                        {
-                            url: '/assignment-detail',
-                            data: {
-                                calendarId: sch.calendarId,
-                                itemSourceId: sch.itemSourceId
-                            },
-                            type: "GET"
-                        }
-                    )))
-                ).then(values => {
+                for await (schs of _.chunk(this.assignments, 3)) {
+                    const values = await Promise.all(
+                        schs.map(sch => ($.ajax(
+                            {
+                                url: '/assignment-detail',
+                                data: {
+                                    calendarId: sch.calendarId,
+                                    itemSourceId: sch.itemSourceId
+                                },
+                                type: "GET"
+                            }
+                        )))
+                    )
+                    
                     const responseData = values.reduce((acc, val) => ({
                         ...acc,
                         [val.data.itemSourceId]: val.data.status
                     }), {})
-                    console.log(values, responseData);
-                    this.assignments = this.assignments.map((sch, index) => {
-                        sch.attemptStatus = responseData[sch.itemSourceId]
-                        sch.noAttempt = sch.attemptStatus == "IN_PROGRESS"
+
+                    this.assignments = this.assignments.map((sch) => {
+                        if (responseData[sch.itemSourceId]) {
+                            sch.attemptStatus = responseData[sch.itemSourceId]
+                            sch.noAttempt = sch.attemptStatus == "IN_PROGRESS"
+                        }
                         return sch;
                     })
-
-                    console.log(this.assignments)
-                })
+                };
             }
         }
       })
