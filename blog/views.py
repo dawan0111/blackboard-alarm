@@ -158,7 +158,7 @@ def getAssignmentDetail(request):
         
         attemptDetailData = attemptDetailReq.json()
         
-        data = attemptDetailData
+        data["status"] = attemptDetailData["status"]
         data["itemSourceId"] = itemSourceId
     
     return HttpResponse(json.dumps({
