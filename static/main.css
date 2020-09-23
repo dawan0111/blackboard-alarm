@@ -36,6 +36,7 @@
 
 .loading-modal .loading {
     width: 60%;
+    max-width: 300px;
 }
 .loading-modal .loading object {
     width: 100%;
@@ -47,7 +48,7 @@
 .loading-modal .loading-text span {
     position: relative;
     font-family: 'JUA';
-    font-size: 10vw;
+    font-size: 32px;
     font-weight: bold;
     color: #fff;
     animation: upDown 2s ease infinite;
