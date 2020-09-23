@@ -15,6 +15,8 @@
         data: {
             assignments: [],
             standardDate: null,
+
+            loading: true,
         },
 
         created () {
@@ -24,9 +26,11 @@
 
         methods: {
             async fetchAssignments() {
+                this.loading = true;
+
                 const schList = await Cralwer.getSch(USER_ID, USER_PW, DECODE_USER_ID);
 
-                this.assignments = schList.data
+                let assignments = schList.data
                     .filter(sch => (+new Date() - new Date(sch.endDate)) < 0)
                     .map(sch => {
                         const endDate = new Date(sch.endDate);
@@ -47,7 +51,7 @@
                         return a.someTimeStamp - b.someTimeStamp;
                     })
 
-                for await (schs of _.chunk(this.assignments, 3)) {
+                for await (schs of _.chunk(assignments, 3)) {
                     const values = await Promise.all(
                         schs.map(sch => ($.ajax(
                             {
@@ -66,7 +70,7 @@
                         [val.data.itemSourceId]: val.data.status
                     }), {})
 
-                    this.assignments = this.assignments.map((sch) => {
+                    assignments = assignments.map((sch) => {
                         if (responseData[sch.itemSourceId]) {
                             sch.attemptStatus = responseData[sch.itemSourceId]
                             sch.noAttempt = sch.attemptStatus == "IN_PROGRESS"
@@ -74,6 +78,9 @@
                         return sch;
                     })
                 };
+
+                this.assignments = assignments;
+                this.loading = false;
             }
         }
       })
