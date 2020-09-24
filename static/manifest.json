@@ -1,0 +1,31 @@
+{
+    "short_name": "BB_Alarm",
+    "name": "BlackBoard Alarm",
+    "description": "한양대 블랙보드 과제현황 한눈에 볼수 있는 어플리케이션",
+    "icons": [
+        {
+            "src": "/static/images/icons-192x192.png",
+            "type": "image/png",
+            "sizes": "192x192"
+        },
+        {
+            "src": "/static/images/icons-256x256.png",
+            "type": "image/png",
+            "sizes": "256x256"
+        },
+        {
+            "src": "/static/images/icons-384x384.png",
+            "type": "image/png",
+            "sizes": "384x384"
+        },
+        {
+            "src": "/static/images/icons-512x512.png",
+            "type": "image/png",
+            "sizes": "512x512"
+        }
+    ],
+    "start_url": "/",
+    "background_color": "#ffffff",
+    "display": "standalone",
+    "theme_color": "#ffffff"
+}
