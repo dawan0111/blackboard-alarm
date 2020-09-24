@@ -6,7 +6,7 @@
     const USER_PW = localStorage.getItem('_userPassword');
 
     if (!(USER_ID || USER_PW)) {
-        location.href = '/login';
+        // location.href = '/login';
         return;
     }
 
