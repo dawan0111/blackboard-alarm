@@ -11,5 +11,4 @@ urlpatterns = [
     path('assignment', views.getAssignment, name="getAssignment"),
     path('assignment-detail', views.getAssignmentDetail, name="getAssignmentDetail"),
     path('sw.js', TemplateView.as_view(template_name='sw.js', content_type='application/javascript'), name='sw.js'),
-    path('manifest.json', views.manifest, name='manifest.json')
 ] + static(settings.STATIC_URL, document_root=settings.STATIC_ROOT)

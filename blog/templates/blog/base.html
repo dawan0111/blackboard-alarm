@@ -7,13 +7,12 @@
     <meta name="apple-mobile-web-app-capable" content="yes">
     <meta name="apple-mobile-web-app-status-bar-style" content="black">
     <meta name="apple-mobile-web-app-title" content="블람이">
+    
+    <link rel="manifest" href="{% static 'manifest.webmanifest' %}">
     <link rel="shortcut icon" href="{% static 'favicon.ico' %}">
     <link rel="apple-touch-icon" href="{% static 'images/icon-152x152.png' %}">
 
     <title>Blackboard Bot</title>
-
-    <link rel=”manifest” href="{% url 'manifest.json' %}">
-    
 
     <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/underscore.js/1.11.0/underscore-min.js"></script>
