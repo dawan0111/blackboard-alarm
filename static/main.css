@@ -85,3 +85,16 @@
 .loading-modal .loading-text span + span {
     margin-left: .3vw;
 }
+
+.no-sign {
+    max-width: 500px;
+    width: 100%;
+    margin: 0 auto;
+}
+.no-sign .logo {
+    margin-bottom: 2rem;
+}
+
+.sign, .no-sign {
+    display: none;
+}

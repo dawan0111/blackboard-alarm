@@ -5,23 +5,27 @@
     const DECODE_USER_ID = localStorage.getItem('_decodeUserId')
     const USER_PW = localStorage.getItem('_userPassword');
 
-    if (!(USER_ID || USER_PW)) {
-        // location.href = '/login';
-        return;
-    }
+    const isSignIn = USER_ID && USER_PW;
+
+    console.log(isSignIn);
 
     var app = new Vue({
         el: '#app',
         data: {
             assignments: [],
             standardDate: null,
-
+            isSignIn: isSignIn,
             loading: true,
         },
 
         created () {
-            this.fetchAssignments();
-            standardDate = moment().format("YY년 MM월 DD일 HH시 mm분 기준");
+            if (this.isSignIn) {
+                $('.sign').show();
+                this.fetchAssignments();
+                standardDate = moment().format("YY년 MM월 DD일 HH시 mm분 기준");
+            } else {
+                $('.no-sign').show();
+            }
         },
 
         methods: {

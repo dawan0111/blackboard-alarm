@@ -4,66 +4,77 @@
 {% block content %}
     {% load static %}
     <div id="app">
-        <div class="pt-4 mb-4">
-            <h1>
-                과제가<br />
-                <span v-html="assignments.length"></span>개나 있네...
-            </h1>
-        </div>
-        <div class="list" v-if="!loading">
-            <div v-for="assignment in assignments" class="mb-3">
-                <div class="card">
-                    <div class="card-header">
-                        <p>
-                            <span v-html="assignment.calendarNameLocalizable.rawValue"></span>
-                            <span class="badge badge-primary" v-html="assignment.badge">Primary</span>
-                            <span class="badge badge-danger" v-if="assignment.noAttempt">제출안됨</span>
-                            <span class="badge badge-success" v-if="!assignment.noAttempt">제출됨</span>
-                        </p>
-                    </div>
-                    <div class="card-body">
-                      <blockquote class="blockquote mb-0">
-                        <p v-html="assignment.title"></p>
-                        <footer class="blockquote-footer">
-                            <span v-html="assignment.endDateFormat"></span> <span>까지</span>
-                        </footer>
-                      </blockquote>
-
-                      <ul>
-                          <li v-for="attempt in assignment.attempts">
-                              <div>
-                                  제출상태: <span v-html="attempt.status"></span>
-                              </div>
-                          </li>
-                      </ul>
-                    </div>
-                  </div>
+        <div class="sign" v-if="isSignIn">
+            <div class="pt-4 mb-4">
+                <h1>
+                    과제가<br />
+                    <span v-html="assignments.length"></span>개나 있네...
+                </h1>
             </div>
-        </div>
-        <div v-else>
-            <div class="loading-modal">
-                <div class="loading">
-                    <object type="image/svg+xml" data="{% static 'images/loading.svg' %}">Loading</object>
-                    <div class="loading-text">
-                        <span>L</span>
-                        <span>o</span>
-                        <span>a</span>
-                        <span>d</span>
-                        <span>i</span>
-                        <span>n</span>
-                        <span>g</span>
-                        <span>.</span>
-                        <span>.</span>
-                        <span>.</span>
+            <div class="list" v-if="!loading">
+                <div v-for="assignment in assignments" class="mb-3">
+                    <div class="card">
+                        <div class="card-header">
+                            <p>
+                                <span v-html="assignment.calendarNameLocalizable.rawValue"></span>
+                                <span class="badge badge-primary" v-html="assignment.badge">Primary</span>
+                                <span class="badge badge-danger" v-if="assignment.noAttempt">제출안됨</span>
+                                <span class="badge badge-success" v-if="!assignment.noAttempt">제출됨</span>
+                            </p>
+                        </div>
+                        <div class="card-body">
+                        <blockquote class="blockquote mb-0">
+                            <p v-html="assignment.title"></p>
+                            <footer class="blockquote-footer">
+                                <span v-html="assignment.endDateFormat"></span> <span>까지</span>
+                            </footer>
+                        </blockquote>
+
+                        <ul>
+                            <li v-for="attempt in assignment.attempts">
+                                <div>
+                                    제출상태: <span v-html="attempt.status"></span>
+                                </div>
+                            </li>
+                        </ul>
+                        </div>
                     </div>
                 </div>
             </div>
+            <div v-else>
+                <div class="loading-modal">
+                    <div class="loading">
+                        <object type="image/svg+xml" data="{% static 'images/loading.svg' %}">Loading</object>
+                        <div class="loading-text">
+                            <span>L</span>
+                            <span>o</span>
+                            <span>a</span>
+                            <span>d</span>
+                            <span>i</span>
+                            <span>n</span>
+                            <span>g</span>
+                            <span>.</span>
+                            <span>.</span>
+                            <span>.</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="no-sign py-4" v-else>
+            <div class="text-center mb-4">
+                <div class="logo">
+                    <img src="{% static 'images/icon-512x512.png' %}" alt="아이콘" class="img-fluid">
+                </div> 
+                <h2>BlackBoard 과제현황</h2>
+                <div>blackboard 과제 현황을 한눈에 볼 수 있는 페이지 입니다. 로그인 후 이용하실 수 있습니다.</div>
+            </div>
+            <button class="btn btn-primary btn-block" onclick="location.href='/login'">로그인</button>
         </div>
     </div>
 {% endblock %}
 
 {% block script %}
     {% load static %}
-    <script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
     <script type="text/javascript" src="{% static 'main.js' %}"></script>
 {% endblock %}

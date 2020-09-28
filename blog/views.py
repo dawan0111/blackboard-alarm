@@ -14,12 +14,48 @@ from selenium import webdriver
 from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.alert import Alert
 
+def offline(request):
+    return render(request, 'blog/offline.html', {})
+
 def schedule(request):
     return render(request, 'blog/index.html', {})
 
 def post_list(request):
     request.session['BbRouter'] = "";
     return render(request, 'blog/post_list.html', {})
+
+def manifest(request):
+    return HttpResponse(json.dumps({
+        "short_name": "블람이",
+        "name": "BlackBoard Alarm",
+        "description": "한양대 블랙보드 과제현황 한눈에 볼수 있는 어플리케이션",
+        "icons": [
+            {
+                "src": "/static/images/icons-192x192.png",
+                "type": "image/png",
+                "sizes": "192x192"
+            },
+            {
+                "src": "/static/images/icons-256x256.png",
+                "type": "image/png",
+                "sizes": "256x256"
+            },
+            {
+                "src": "/static/images/icons-384x384.png",
+                "type": "image/png",
+                "sizes": "384x384"
+            },
+            {
+                "src": "/static/images/icons-512x512.png",
+                "type": "image/png",
+                "sizes": "512x512"
+            }
+        ],
+        "start_url": "/",
+        "background_color": "#ffffff",
+        "display": "standalone",
+        "theme_color": "#ffffff",
+    }, ensure_ascii=False), content_type="application/json")
 
 def fetchAssignment(BbRouter, request):
     
