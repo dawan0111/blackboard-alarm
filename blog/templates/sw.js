@@ -19,10 +19,13 @@ async function cacheFirst(req){
 
 async function newtorkFirst(req){
   const cache = await caches.open('dynamic-cache');
-
+  const url = new URL(req.url);
   try {
       const res = await fetch(req);
-      cache.put(req, res.clone());
+
+      if (url.pathname.indexOf('/assignment') != 0) {
+        cache.put(req, res.clone());
+      }
       return res;
   } catch (error) {
       return await cache.match(req);
@@ -31,7 +34,6 @@ async function newtorkFirst(req){
 
 self.addEventListener('fetch', event => {
   const req = event.request;
-  const url = new URL(req.url);
 
   if(url.origin === location.url){
       event.respondWith(cacheFirst(req));
