@@ -17,6 +17,38 @@
     }
 }
 
+.sign {
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+
+    background: url('./images/background.jpg') center center / cover;
+}
+
+.sign > div {
+    max-width: 800px;
+    margin: 0 auto;
+}
+
+/*
+    background: #12c2e9;  /* fallback for old browsers 
+    background: -webkit-linear-gradient(to top, #f64f59, #c471ed, #12c2e9);  /* Chrome 10-25, Safari 5.1-6 
+    background: linear-gradient(to top, #f64f59, #c471ed, #12c2e9); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ 
+*/
+
+.sign-header {
+    /*border-radius: 5vw; */
+    color: #fff;
+}
+.sign-container {
+    border-top-left-radius: 10vmin;
+    border-top-right-radius: 10vmin;
+    background: rgba(255, 255, 255, 0.8);
+    backdrop-filter: saturate(180%) blur(20px);
+    padding-top: 6vmin;
+    flex: 1;
+}
+
 .loading-modal {
     display: flex;
     align-items: center;
@@ -95,6 +127,54 @@
     margin-bottom: 2rem;
 }
 
-.sign, .no-sign {
+.card {
+    border: none;
+    border-radius: 1.00rem;
+}
+.card-header {
+    background: none;
+    border-bottom: none;
+    padding-bottom: 0;
+}
+.card-header p {
+    margin-bottom: 0;
+}
+.card-body {
+}
+.card-body .blockquote.mb-0 {
+    position: relative;
+    /*padding: 0 1.25rem; */
+}
+.card-body .blockquote.mb-0 .line {
+    position: absolute;
+    left: 0;
+    top: 0;
     display: none;
+    width: 3px;
+    height: 100%;
+    content: '';
+    filter: brightness(2);
+}
+.card-body .blockquote.mb-0 .title {
+    font-size: 1.2rem;
+    margin-bottom: .4rem;
+}
+.card-body .blockquote.mb-0 .blockquote-footer {
+    font-size: .8rem;
+}
+
+.assignment .status {
+    margin-top: 1.25rem;
+}
+
+
+.badge {
+    border-radius: 30rem;
+}
+.badge-success {
+    background-color: #4bd764;
+}
+
+.badge-danger {
+    background-color: #ff2502;
 }

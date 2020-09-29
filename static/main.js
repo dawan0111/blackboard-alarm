@@ -15,12 +15,12 @@
             assignments: [],
             standardDate: null,
             isSignIn: isSignIn,
-            loading: true,
+            loading: false,
         },
 
         created () {
             if (this.isSignIn) {
-                $('.sign').show();
+                $('.sign').css('display', 'flex');
                 this.fetchAssignments();
                 standardDate = moment().format("YY년 MM월 DD일 HH시 mm분 기준");
             } else {
@@ -40,7 +40,9 @@
                         const endDate = new Date(sch.endDate);
                         const diffHour = moment(endDate).diff(moment(), 'hours');
                         const diffMinute = moment(endDate).diff(moment(), 'minutes');
-
+                        const courseName = sch.calendarNameLocalizable.rawValue.split(':').slice(1).join('').trim()
+                        console.log(courseName);
+                        sch.calendarNameLocalizable.rawValue = courseName;
                         sch.endTimeStamp = +endDate;
                         sch.endDateFormat = moment(endDate).format("YY년 MM월 DD일 HH시 mm분"); 
                         sch.someTimeStamp = sch.endTimeStamp - (+new Date());

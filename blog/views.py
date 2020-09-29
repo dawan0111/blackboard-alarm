@@ -24,6 +24,7 @@ def post_list(request):
     request.session['BbRouter'] = "";
     return render(request, 'blog/post_list.html', {})
 
+
 def fetchAssignment(BbRouter, request):
     
     with requests.Session() as s:
