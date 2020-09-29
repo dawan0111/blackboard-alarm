@@ -7,8 +7,6 @@
 
     const isSignIn = USER_ID && USER_PW;
 
-    console.log(isSignIn);
-
     var app = new Vue({
         el: '#app',
         data: {
@@ -21,16 +19,32 @@
         created () {
             if (this.isSignIn) {
                 $('.sign').css('display', 'flex');
-                this.fetchAssignments();
+                this.fetchAssignments({
+                    loading: true,
+                });
                 standardDate = moment().format("YY년 MM월 DD일 HH시 mm분 기준");
             } else {
                 $('.no-sign').show();
             }
+
+            let timerDate = moment();
+
+            setInterval(() => {
+                const diffMinute = moment().diff(timerDate, 'minutes');
+
+                if (diffMinute > 0) {
+                    this.fetchAssignments({
+                        loading: false,
+                    });
+                    
+                    timerDate = moment()
+                }
+            }, 1000)
         },
 
         methods: {
-            async fetchAssignments() {
-                this.loading = true;
+            async fetchAssignments(options) {
+                this.loading = options.loading;
 
                 const schList = await Cralwer.getSch(USER_ID, USER_PW, DECODE_USER_ID);
 
@@ -41,13 +55,19 @@
                         const diffHour = moment(endDate).diff(moment(), 'hours');
                         const diffMinute = moment(endDate).diff(moment(), 'minutes');
                         const courseName = sch.calendarNameLocalizable.rawValue.split(':').slice(1).join('').trim()
-                        console.log(courseName);
+
                         sch.calendarNameLocalizable.rawValue = courseName;
                         sch.endTimeStamp = +endDate;
                         sch.endDateFormat = moment(endDate).format("YY년 MM월 DD일 HH시 mm분"); 
                         sch.someTimeStamp = sch.endTimeStamp - (+new Date());
                         sch.isEnd = (+new Date() - endDate) >= 0;
-                        sch.badge = diffHour >= 24 ? `${Math.floor(diffHour / 24)}일 ${diffHour % 24}시간 남음` : `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
+                        sch.badge = diffHour >= 24 ?
+                            `
+                                ${Math.floor(diffMinute / (60 * 24))}일
+                                ${Math.floor(diffMinute % (60 * 24) / 60)}시간
+                                ${diffMinute % 60}분 남음
+                            `:
+                            `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
                         sch.attempts = []
                         sch.noAttempt = false
 
