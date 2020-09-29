@@ -13,6 +13,11 @@ self.addEventListener('activate', event => {
 });
 
 async function cacheFirst(req){
+  const url = new URL(req.url);
+  if (url.pathname.indexOf('/assignment') == 0) {
+    return fetch(req);
+  }
+  
   const cachedResponse = caches.match(req);
   return cachedResponse || fetch(req);
 }
@@ -34,6 +39,7 @@ async function newtorkFirst(req){
 
 self.addEventListener('fetch', event => {
   const req = event.request;
+  const url = new URL(req.url);
 
   if(url.origin === location.url){
       event.respondWith(cacheFirst(req));
