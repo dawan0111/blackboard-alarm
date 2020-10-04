@@ -178,3 +178,62 @@
 .badge-danger {
     background-color: #ff2502;
 }
+
+.progress {
+    position: relative;
+    border-radius: 500px;
+    height: .75rem;
+    padding: 0.15rem 0.2rem;
+}
+.progress-wrap {
+    position: relative;
+    width: 100%;
+    height: 100%;
+}
+.progress-header {
+    display: flex;
+    justify-content: space-between;
+}
+.progress-title {
+    font-size: 1.25rem;
+    margin-bottom: 1rem;
+}
+.progress-value {
+    font-weight: bold;
+    font-size: 1rem;
+}
+.progress-value span.prt {
+    color: #ff2502;
+    font-size: 1.25rem;
+    transition: 500ms ease;
+}
+.progress-bar {
+    position: absolute;
+    left: 0;
+    top: 0;
+    width: 50%;
+    height: 100%;
+    border-radius: 500px;
+    background: #ff2502;
+    transition: 500ms ease;
+}
+
+.progress-value span.prt.danger {
+    color: #ff2502;
+}
+.progress-value span.prt.warning {
+    color: #f9a602;
+}
+.progress-value span.prt.success {
+    color: #4bd764;
+}
+
+.progress-bar.danger {
+    background: #ff2502;
+}
+.progress-bar.warning {
+    background: #f9a602;
+}
+.progress-bar.success {
+    background: #4bd764;
+}

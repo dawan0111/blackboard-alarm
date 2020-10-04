@@ -14,7 +14,29 @@
                 </div>
             </div>
             <div class="container sign-container">
-                <div class="list" v-if="!loading">
+                <div class="card mb-3">
+                    <div class="card-body">
+                        <div class="progress-header">
+                            <h2 class="progress-title">진행률</h2>
+                            <div class="progress-value">
+                                <span class="prt" v-bind:class="progressStatus"><span v-html="progressPrt">0</span>%</span>
+                                (
+                                    <span v-html="complateAssignments.length">0</span>/<span v-html="assignments.length">0</span>
+                                )
+                            </div>
+                        </div>
+                        <div class="progress">
+                            <div class="progress-wrap">
+                                <div
+                                    class="progress-bar"
+                                    v-bind:style="{ width: progressPrt + '%' }"
+                                    v-bind:class="progressStatus"
+                                ></div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="list">
                     <div v-for="assignment in assignments" class="mb-3">
                         <div class="card assignment">
                             <div class="card-header">
@@ -85,5 +107,5 @@
 
 {% block script %}
     {% load static %}
-    <script type="text/javascript" src="{% static 'main.js' %}"></script>
+    <script type="text/javascript" src="{% static 'main.js?v=1111' %}"></script>
 {% endblock %}

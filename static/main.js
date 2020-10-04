@@ -69,13 +69,15 @@
                             `:
                             `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
                         sch.attempts = []
-                        sch.noAttempt = false
+                        sch.noAttempt = true
 
                         return sch;
                     })
                     .sort((a, b) => {
                         return a.someTimeStamp - b.someTimeStamp;
                     })
+                    
+                this.assignments = _.map(assignments, _.clone);
 
                 for await (schs of _.chunk(assignments, 3)) {
                     const values = await Promise.all(
@@ -108,6 +110,24 @@
                 this.assignments = assignments;
                 this.loading = false;
             }
-        }
+        },
+
+        computed: {
+            complateAssignments: function () {
+              return this.assignments.filter(value => !value.noAttempt)
+            },
+
+            progressPrt: function() {
+                if (this.assignments.length) {
+                    return Math.floor(this.complateAssignments.length / this.assignments.length * 100 * 10) / 10;
+                } else {
+                    return 0;
+                }
+            },
+
+            progressStatus: function() {
+                return this.progressPrt <= 30 ? 'danger' : (this.progressPrt <= 60 ? 'warning' : 'success')
+            }
+          }
       })
 })()
