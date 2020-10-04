@@ -79,8 +79,10 @@
                     .sort((a, b) => {
                         return a.someTimeStamp - b.someTimeStamp;
                     })
-                    
-                this.assignments = _.map(assignments, _.clone);
+                
+                if (this.assignments.length === 0) {
+                    this.assignments = _.map(assignments, _.clone);
+                }
 
                 for await (schs of _.chunk(assignments, 3)) {
                     const values = await Promise.all(
