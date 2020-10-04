@@ -11,6 +11,7 @@
         el: '#app',
         data: {
             assignments: [],
+            assignmentAttempt: {},
             standardDate: null,
             isSignIn: isSignIn,
             loading: false,
@@ -69,7 +70,9 @@
                             `:
                             `${Math.floor(diffMinute / 60)}시 ${diffMinute % 60}분 남음`;
                         sch.attempts = []
-                        sch.noAttempt = true
+                        sch.noAttempt = this.assignmentAttempt.hasOwnProperty(sch.itemSourceId) ?
+                            this.assignmentAttempt[sch.itemSourceId] :
+                            true;
 
                         return sch;
                     })
@@ -97,6 +100,11 @@
                         ...acc,
                         [val.data.itemSourceId]: val.data.status
                     }), {})
+
+                    this.assignmentAttempt = values.reduce((acc, val) => ({
+                        ...acc,
+                        [val.data.itemSourceId]: val.data.status
+                    }), this.assignmentAttempt)
 
                     assignments = assignments.map((sch) => {
                         if (responseData[sch.itemSourceId]) {
